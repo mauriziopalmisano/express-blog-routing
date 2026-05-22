@@ -1,5 +1,6 @@
 import { posts } from "../data/ricettePosts.js";
 import { postList } from "../data/nosensePosts.js";
+import { idCheck } from "../functions/function.js";
 
 
 
@@ -8,9 +9,30 @@ export function index(request, response) {
 }
 
 export function show(request, response) {
-    const id = Number(request.params.id);
-    const obj = posts.find(post => post.id === id);
-    response.json(obj);
+    const id = Number(request.params.id.trim());
+    if(!idCheck(id)){
+        response
+            .status(404)
+            .json({
+                error: "l'ID passato non é valido, Deve essere un numero intero maggiore di zero.",
+                result: null
+            });
+            return
+    };
+    const post = posts.find(post => post.id === id);
+    if (!post){
+        response
+            .status(404)
+            .json({
+                error: "Il post non esiste",
+                result: null
+            });
+            return
+    }
+    response.json({
+        error: null,
+        result: post
+    });
 }
 
 export function store(request, response) {
