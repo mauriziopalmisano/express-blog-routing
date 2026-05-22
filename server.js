@@ -1,6 +1,8 @@
-import express from 'express'
-import {SERVER_PORT, SERVER_URL} from './data/nosensePosts.js'
+import express, { request, response } from 'express'
+import {htmlEmail, SERVER_PORT, SERVER_URL} from './data/nosensePosts.js'
 import post from './routers/posts.js';
+import { mailSender } from './utils/mailsender.js';
+import { listaMail } from './mails.js';
 
 
 
@@ -9,7 +11,18 @@ const app = express();
 app.use('/posts', post);
 
 
-
+app.get('/send-mail', (request, response) => {
+    mailSender(
+        listaMail,
+        "prova d'invio mail",
+        htmlEmail
+    ).then(mailData => {
+        console.log(mailData);
+        response.json({
+            report: 'mail inviata con successo'
+        });
+    });
+});
 
 
 
