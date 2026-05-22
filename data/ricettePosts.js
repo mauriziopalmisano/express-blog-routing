@@ -1,4 +1,4 @@
-const posts = [
+export const posts = [
   {
     id: 1,
     title: "Ciambellone",
@@ -44,4 +44,3 @@ const posts = [
   },
 ];
 
-module.exports = posts;
